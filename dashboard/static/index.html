@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>客服监控看板</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body { font-family: "Segoe UI", system-ui, -apple-system, sans-serif; margin: 0; background: #0f172a; color: #e2e8f0; }
+    header { padding: 18px 24px; background: linear-gradient(120deg, #0ea5e9, #6366f1); color: #0b1224; font-weight: 700; letter-spacing: 0.5px; }
+    main { padding: 20px; display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 20px; }
+    .card { background: #111827; border: 1px solid #1f2937; border-radius: 12px; padding: 16px; box-shadow: 0 6px 18px rgba(0,0,0,0.3); }
+    .title { font-size: 15px; margin: 0 0 8px; color: #a5b4fc; }
+    .metric { font-size: 28px; margin: 0; font-weight: 700; }
+    table { width: 100%; border-collapse: collapse; margin-top: 8px; font-size: 13px; }
+    th, td { padding: 8px; border-bottom: 1px solid #1f2937; text-align: left; }
+    th { color: #cbd5e1; }
+    tr:hover { background: #0b1224; }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    @media (max-width: 960px) { main { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <header>客服监控看板</header>
+  <main>
+    <section class="card">
+      <h3 class="title">汇总指标</h3>
+      <div class="grid-2">
+        <div>
+          <p class="metric" id="total-conv">--</p>
+          <p>会话数 (近 500 条)</p>
+        </div>
+        <div>
+          <p class="metric" id="kb-rate">--</p>
+          <p>知识库命中率</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h3 class="title">工具使用分布</h3>
+      <canvas id="toolChart" height="120"></canvas>
+    </section>
+
+    <section class="card">
+      <h3 class="title">每日会话量</h3>
+      <canvas id="dailyChart" height="160"></canvas>
+    </section>
+
+    <section class="card">
+      <h3 class="title">最近会话</h3>
+      <table>
+        <thead>
+          <tr><th>时间</th><th>用户</th><th>内容</th><th>kb_hit</th><th>工具</th></tr>
+        </thead>
+        <tbody id="log-body"></tbody>
+      </table>
+    </section>
+
+    <section class="card">
+      <h3 class="title">RAG 控制/说明</h3>
+      <div id="cfg-text" style="font-size:13px;color:#cbd5e1;line-height:1.5;margin-bottom:8px;">加载中...</div>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;">
+        <button class="pill" data-cmd="rag 外部">rag 外部</button>
+        <button class="pill" data-cmd="rag 本地">rag 本地</button>
+        <button class="pill" data-cmd="rag topk=5">rag topk=5</button>
+        <button class="pill" data-cmd="rag 阈值=0.3">rag 阈值=0.3</button>
+        <button class="pill" data-cmd="rag reset">rag reset</button>
+        <a class="pill" href="/static/user.html" target="_blank">打开用户H5指引</a>
+      </div>
+      <p style="margin-top:8px;font-size:12px;color:#94a3b8;">复制指令发送给用户，或点击下方“用户H5指引”生成可分享页面。</p>
+    </section>
+  </main>
+
+  <script>
+    async function fetchJSON(url) {
+      const resp = await fetch(url);
+      return await resp.json();
+    }
+
+    function renderTable(logs) {
+      const tbody = document.getElementById("log-body");
+      tbody.innerHTML = "";
+      logs.forEach(log => {
+        const tr = document.createElement("tr");
+        const timeStr = log.created_at ? new Date(log.created_at * 1000).toLocaleString() : "--";
+        const tools = (log.tool_calls || []).map(t => t.name || "tool").join(", ");
+        tr.innerHTML = `<td>${timeStr}</td><td>${log.session_id || "-"}</td><td>${log.user_message || ""}</td><td>${log.kb_hit}</td><td>${tools}</td>`;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function renderToolChart(data) {
+      const labels = Object.keys(data);
+      const values = Object.values(data);
+      new Chart(document.getElementById("toolChart"), {
+        type: "bar",
+        data: { labels, datasets: [{ label: "调用次数", data: values, backgroundColor: "#38bdf8" }]},
+        options: { plugins: { legend: { display: false }}, scales: { x: { grid: { display: false }}, y: { beginAtZero: true }}}
+      });
+    }
+
+    function renderDailyChart(data) {
+      const labels = Object.keys(data).sort();
+      const values = labels.map(k => data[k]);
+      new Chart(document.getElementById("dailyChart"), {
+        type: "line",
+        data: { labels, datasets: [{ label: "会话量", data: values, borderColor: "#a78bfa", fill: false }]},
+        options: { plugins: { legend: { display: false }}, scales: { y: { beginAtZero: true }}}
+      });
+    }
+
+    async function init() {
+      const stats = await fetchJSON("/api/stats");
+      document.getElementById("total-conv").textContent = stats.total_conversations;
+      document.getElementById("kb-rate").textContent = (stats.kb_hit_rate * 100).toFixed(1) + "%";
+      renderToolChart(stats.tool_usage || {});
+      renderDailyChart(stats.daily_volume || {});
+
+      const logs = await fetchJSON("/api/logs?limit=20");
+      renderTable(logs);
+
+      const cfg = await fetchJSON("/api/gateway-config");
+      const cfgText = document.getElementById("cfg-text");
+      cfgText.textContent = `外部RAG=${cfg.external_only ? "只用外部" : "允许本地兜底"} | base_url=${cfg.base_url} | top_k=${cfg.top_k} | 阈值=${cfg.threshold} | 超时=${cfg.timeout}s`;
+
+      document.querySelectorAll(".pill[data-cmd]").forEach(btn => {
+        btn.onclick = () => {
+          const cmd = btn.getAttribute("data-cmd");
+          navigator.clipboard.writeText(cmd).then(() => {
+            btn.textContent = "已复制: " + cmd;
+            setTimeout(() => btn.textContent = cmd, 1200);
+          });
+        };
+      });
+    }
+
+    init().catch(err => console.error(err));
+  </script>
+
+  <style>
+    .pill { background:#1f2937; border:1px solid #334155; color:#e2e8f0; padding:6px 10px; border-radius:999px; cursor:pointer; font-size:12px; }
+    .pill:hover { background:#0ea5e9; border-color:#0ea5e9; color:#0b1224; }
+  </style>
+</body>
+</html>

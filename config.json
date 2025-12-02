@@ -1,0 +1,40 @@
+{
+  "channel_type": "wechatmp",
+  "model": "deepseek-chat",
+  "bot_type": "chatGPT",
+  "open_ai_api_key": "sk-c6a4f2aca468471497655134d8f30b98",
+  "open_ai_api_base": "https://api.deepseek.com/v1",
+  "proxy": "",
+
+  "wechatmp_token": "mywechatbottoken",
+  "wechatmp_port": 8080,
+  "wechatmp_app_id": "wx90c39a9bef737b15",
+  "wechatmp_app_secret": "100d6bb94939d0631f4101bccd77ca25",
+  "wechatmp_aes_key": "oDJUf5bxiRWye2RZiK4ClFE23JTmWvEJKSStIF5yogL",
+
+  "hot_reload": false,
+  "single_chat_prefix": [""],
+  "single_chat_reply_prefix": "",
+  "subscribe_msg": "欢迎关注！直接发送消息即可获得回复。\n支持 RAG 设置指令：\n- rag 本地 / rag 外部\n- rag topk=5\n- rag 阈值=0.3\n- rag reset\n遇到问题可先发送 rag 查看帮助。",
+  "group_chat_prefix": ["@bot"],
+  "group_name_white_list": ["ChatGPT测试群", "ChatGPT测试群2"],
+  "image_create_prefix": ["画"],
+  "speech_recognition": true,
+  "group_speech_recognition": false,
+  "voice_reply_voice": false,
+  "conversation_max_tokens": 2500,
+  "expires_in_seconds": 3600,
+  "character_desc": "你是基于大语言模型的AI智能助手，旨在回答并解决人们的任何问题，并且可以使用多种语言与人交流。",
+  "temperature": 0.7,
+
+  "smart_gateway_enabled": true,
+  "smart_gateway_base_url": "http://127.0.0.1:8500",
+  "smart_gateway_timeout": 15,
+  "smart_gateway_tools_allowed": ["lookup_order", "check_logistics", "product_info"],
+  "smart_gateway_rag_top_k": 3,
+  "smart_gateway_rag_threshold": 0.3,
+
+  "customer_service_api_base_url": "https://api.srj666.com",
+  "customer_service_api_token": "yuzhouwudichaojibaolongzhanshensrj",
+  "customer_service_api_timeout": 8.0
+}

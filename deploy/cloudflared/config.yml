@@ -1,0 +1,12 @@
+tunnel: 8f9cc633-6e12-402b-9d8e-98a92354f079
+credentials-file: /etc/cloudflared/credentials/8f9cc633-6e12-402b-9d8e-98a92354f079.json
+protocol: quic
+
+ingress:
+  - hostname: wx.srj666.com
+    service: http://caddy:80
+  - hostname: dashkefu.srj666.com
+    service: http://caddy:80
+  - hostname: gateway.srj666.com
+    service: http://caddy:80
+  - service: http_status:404

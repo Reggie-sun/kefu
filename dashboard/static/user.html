@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RAG 模式指引</title>
+  <style>
+    body { font-family: "Segoe UI", system-ui, -apple-system, sans-serif; margin: 0; background: #0f172a; color: #e2e8f0; padding: 18px; }
+    h1 { font-size: 20px; margin: 0 0 12px; color: #38bdf8; }
+    p { margin: 6px 0; color: #cbd5e1; }
+    .btn { display:block; width:100%; margin:8px 0; padding:12px; background:#1f2937; border:1px solid #334155; border-radius:10px; color:#e2e8f0; text-align:left; font-size:15px; cursor:pointer; }
+    .btn:hover { background:#0ea5e9; border-color:#0ea5e9; color:#0b1224; }
+    .toast { position:fixed; bottom:16px; left:50%; transform:translateX(-50%); background:#0ea5e9; color:#0b1224; padding:10px 14px; border-radius:999px; display:none; }
+  </style>
+</head>
+<body>
+  <h1>选择检索模式</h1>
+  <p>点击一条指令会自动复制，粘贴发送给机器人即可切换。</p>
+  <button class="btn" data-cmd="rag 外部">🚀 外部/增强检索</button>
+  <button class="btn" data-cmd="rag 本地">📁 仅本地检索</button>
+  <button class="btn" data-cmd="rag topk=5">🎯 设置 top_k=5</button>
+  <button class="btn" data-cmd="rag 阈值=0.3">📏 设置阈值=0.3</button>
+  <button class="btn" data-cmd="rag reset">♻️ 重置为默认</button>
+
+  <div class="toast" id="toast">已复制</div>
+
+  <script>
+    function showToast(text) {
+      const t = document.getElementById("toast");
+      t.textContent = text;
+      t.style.display = "block";
+      setTimeout(() => t.style.display = "none", 1200);
+    }
+    document.querySelectorAll(".btn").forEach(btn => {
+      btn.onclick = () => {
+        const cmd = btn.getAttribute("data-cmd");
+        navigator.clipboard.writeText(cmd).then(() => showToast("已复制: " + cmd));
+      };
+    });
+  </script>
+</body>
+</html>

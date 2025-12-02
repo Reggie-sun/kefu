@@ -1,0 +1,95 @@
+version: "3.9"
+
+services:
+  gateway:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    user: root
+    env_file: .env.deploy
+    environment:
+      - CHATGPT_ON_WECHAT_EXEC=uvicorn gateway.app:app --host 0.0.0.0 --port 8500
+      - GATEWAY_LOG_DB=sqlite:////data/gateway_logs.sqlite3
+      - CUSTOMER_SERVICE_API_BASE_URL=${customer_service_api_base_url}
+      - CUSTOMER_SERVICE_API_TOKEN=${customer_service_api_token}
+      - CUSTOMER_SERVICE_API_TIMEOUT=${customer_service_api_timeout}
+    volumes:
+      - ./:/app
+      - gateway-data:/data
+    networks:
+      - cow-net
+    restart: unless-stopped
+
+  bot:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    user: root
+    env_file: .env.deploy
+    environment:
+      - channel_type=${CHANNEL_TYPE:-wechatmp}
+      - smart_gateway_base_url=http://gateway:8500
+      - smart_gateway_timeout=${smart_gateway_timeout:-60}
+      - RAG_H5_URL=https://dashkefu.srj666.com/static/user.html
+      - LOG_PATH=/data/run.log
+    depends_on:
+      - gateway
+    networks:
+      - cow-net
+    volumes:
+      - ./:/app
+      - gateway-data:/data
+    restart: unless-stopped
+
+  dashboard:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    user: root
+    env_file: .env.deploy
+    environment:
+      - CHATGPT_ON_WECHAT_EXEC=uvicorn dashboard.app:app --host 0.0.0.0 --port 8501
+      - GATEWAY_LOG_DB=sqlite:////data/gateway_logs.sqlite3
+    volumes:
+      - ./:/app
+      - gateway-data:/data
+    networks:
+      - cow-net
+    restart: unless-stopped
+
+  caddy:
+    image: iarekylew00t/caddy-cloudflare:latest
+    env_file: .env.deploy
+    volumes:
+      - ./deploy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+      - caddy-config:/config
+    depends_on:
+      - bot
+      - gateway
+      - dashboard
+    networks:
+      - cow-net
+    restart: unless-stopped
+
+  cloudflared:
+    build:
+      context: ./deploy/cloudflared
+    env_file: .env.deploy
+    volumes:
+      - ./deploy/cloudflared/credentials:/etc/cloudflared/credentials:ro
+      - ./deploy/cloudflared/config.yml:/etc/cloudflared/config.yml:ro
+    depends_on:
+      - caddy
+    networks:
+      - cow-net
+    restart: unless-stopped
+
+networks:
+  cow-net:
+    driver: bridge
+
+volumes:
+  gateway-data:
+  caddy-data:
+  caddy-config:

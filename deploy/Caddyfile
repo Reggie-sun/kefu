@@ -1,0 +1,70 @@
+# Caddy reverse proxy for bot/gateway/dashboard
+{
+    email {$CADDY_ACME_EMAIL}
+    admin off
+    auto_https disable_redirects
+}
+
+(common_headers) {
+    encode zstd gzip
+    header {
+        Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+        Referrer-Policy "strict-origin-when-cross-origin"
+        X-Content-Type-Options "nosniff"
+        X-Frame-Options "DENY"
+        Permissions-Policy "camera=(), microphone=(), geolocation=(self)"
+    }
+}
+
+(wx_site) {
+    import common_headers
+    reverse_proxy bot:8080
+    tls {
+        dns cloudflare {env.CLOUDFLARE_API_TOKEN}
+    }
+}
+
+(gateway_site) {
+    import common_headers
+    reverse_proxy gateway:8500
+    tls {
+        dns cloudflare {env.CLOUDFLARE_API_TOKEN}
+    }
+}
+
+(dash_site) {
+    import common_headers
+    reverse_proxy dashboard:8501
+    tls {
+        dns cloudflare {env.CLOUDFLARE_API_TOKEN}
+    }
+}
+
+http://{$WX_DOMAIN} {
+    import wx_site
+}
+https://{$WX_DOMAIN} {
+    import wx_site
+}
+
+http://{$GATEWAY_DOMAIN} {
+    import gateway_site
+}
+https://{$GATEWAY_DOMAIN} {
+    import gateway_site
+}
+
+http://{$DASH_DOMAIN} {
+    import dash_site
+}
+https://{$DASH_DOMAIN} {
+    import dash_site
+}
+
+# default 404
+http://:80 {
+    respond "not found" 404
+}
+https://:443 {
+    respond "not found" 404
+}

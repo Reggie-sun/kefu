@@ -1,0 +1,82 @@
+version: "3.9"
+
+services:
+  bot:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: cow-bot
+    env_file: .env
+    environment:
+      - channel_type=${CHANNEL_TYPE:-wechatmp}
+      - smart_gateway_base_url=http://gateway:8000
+      - smart_gateway_timeout=15
+    depends_on:
+      - gateway
+      - redis
+      - vector-db
+    networks:
+      - cow-net
+    restart: unless-stopped
+
+  gateway:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: cow-gateway
+    command: uvicorn gateway.app:app --host 0.0.0.0 --port 8000
+    env_file: .env
+    environment:
+      - GATEWAY_LOG_DB=sqlite:///data/gateway_logs.sqlite3
+      - SMART_ROUTING_MODE=${SMART_ROUTING_MODE:-rule_based}
+      - SMART_RERANK=${SMART_RERANK:-false}
+    volumes:
+      - gateway-data:/data
+    networks:
+      - cow-net
+    restart: unless-stopped
+
+  vector-db:
+    image: ankane/pgvector:latest
+    container_name: cow-vector
+    environment:
+      POSTGRES_USER: ${VECTOR_DB_USER:-vector}
+      POSTGRES_PASSWORD: ${VECTOR_DB_PASSWORD:-vector}
+      POSTGRES_DB: ${VECTOR_DB_NAME:-vectordb}
+    volumes:
+      - vector-data:/var/lib/postgresql/data
+    networks:
+      - cow-net
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    container_name: cow-redis
+    networks:
+      - cow-net
+    restart: unless-stopped
+
+  dashboard:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: cow-dashboard
+    command: uvicorn dashboard.app:app --host 0.0.0.0 --port 8501
+    env_file: .env
+    environment:
+      - GATEWAY_LOG_DB=sqlite:///data/gateway_logs.sqlite3
+    volumes:
+      - gateway-data:/data
+    networks:
+      - cow-net
+    ports:
+      - "8501:8501"
+    restart: unless-stopped
+
+networks:
+  cow-net:
+    driver: bridge
+
+volumes:
+  gateway-data:
+  vector-data:

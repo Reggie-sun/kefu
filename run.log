@@ -1,0 +1,186 @@
+[ERROR][2025-12-01 03:54:35][app.py:301] - [gateway] retrieval error: local variable 'ext_res' referenced before assignment
+Traceback (most recent call last):
+  File "/app/gateway/app.py", line 294, in chat
+    if kb_hit and retrieved and not ext_res:
+UnboundLocalError: local variable 'ext_res' referenced before assignment
+[INFO][2025-12-01 12:09:58][config.py:299] - [INIT] override config by environ args: smart_gateway_timeout=100
+[INFO][2025-12-01 12:09:58][config.py:299] - [INIT] override config by environ args: model=claude-opus-4-5-20251101
+[INFO][2025-12-01 12:09:58][config.py:299] - [INIT] override config by environ args: customer_service_api_token=yuzhouwudichaojibaolongzhanshensrj
+[INFO][2025-12-01 12:09:58][config.py:299] - [INIT] override config by environ args: customer_service_api_base_url=https://api.srj666.com
+[INFO][2025-12-01 12:09:58][config.py:299] - [INIT] override config by environ args: customer_service_api_timeout=100
+[INFO][2025-12-01 12:09:58][config.py:314] - [INIT] load config: {'channel_type': 'wechatmp', 'model': 'claude-opus-4-5-20251101', 'bot_type': 'chatGPT', 'open_ai_api_key': 'sk-*****b98', 'open_ai_api_base': 'https://api.deepseek.com/v1', 'proxy': '', 'wechatmp_token': 'mywechatbottoken', 'wechatmp_port': 8080, 'wechatmp_app_id': 'wx90c39a9bef737b15', 'wechatmp_app_secret': '100*****a25', 'wechatmp_aes_key': 'oDJ*****ogL', 'hot_reload': False, 'single_chat_prefix': [''], 'single_chat_reply_prefix': '', 'subscribe_msg': '欢迎关注！直接发送消息即可获得回复。\n支持 RAG 设置指令：\n- rag 本地 / rag 外部\n- rag topk=5\n- rag 阈值=0.3\n- rag reset\n遇到问题可先发送 rag 查看帮助。', 'group_chat_prefix': ['@bot'], 'group_name_white_list': ['ChatGPT测试群', 'ChatGPT测试群2'], 'image_create_prefix': ['画'], 'speech_recognition': True, 'group_speech_recognition': False, 'voice_reply_voice': False, 'conversation_max_tokens': 2500, 'expires_in_seconds': 3600, 'character_desc': '你是基于大语言模型的AI智能助手，旨在回答并解决人们的任何问题，并且可以使用多种语言与人交流。', 'temperature': 0.7, 'smart_gateway_enabled': False, 'smart_gateway_base_url': 'http://127.0.0.1:8500', 'smart_gateway_timeout': 100, 'smart_gateway_tools_allowed': ['lookup_order', 'check_logistics', 'product_info'], 'smart_gateway_rag_top_k': 3, 'smart_gateway_rag_threshold': 0.3, 'customer_service_api_base_url': 'https://api.srj666.com', 'customer_service_api_token': 'yuzhouwudichaojibaolongzhanshensrj', 'customer_service_api_timeout': 100}
+[INFO][2025-12-01 12:09:58][config.py:240] - [Config] User datas file not found, ignore.
+[INFO][2025-12-01 12:09:58][plugin_manager.py:50] - Loading plugins config...
+[INFO][2025-12-01 12:09:58][plugin_manager.py:88] - Scaning plugins ...
+[INFO][2025-12-01 12:09:58][plugin_manager.py:41] - Plugin BDunit_v0.1 registered, path=./plugins/bdunit
+[INFO][2025-12-01 12:09:58][plugin_manager.py:41] - Plugin Godcmd_v1.0 registered, path=./plugins/godcmd
+[INFO][2025-12-01 12:09:58][plugin_manager.py:41] - Plugin Banwords_v1.0 registered, path=./plugins/banwords
+[INFO][2025-12-01 12:09:58][plugin_manager.py:41] - Plugin Keyword_v0.1 registered, path=./plugins/keyword
+[WARNING][2025-12-01 12:09:58][plugin_manager.py:113] - Failed to import plugin tool: No module named 'chatgpt_tool_hub'
+[INFO][2025-12-01 12:09:58][plugin_manager.py:41] - Plugin Dungeon_v1.0 registered, path=./plugins/dungeon
+[INFO][2025-12-01 12:09:58][plugin_manager.py:41] - Plugin Finish_v1.0 registered, path=./plugins/finish
+[INFO][2025-12-01 12:09:58][plugin_manager.py:41] - Plugin Role_v1.0 registered, path=./plugins/role
+[INFO][2025-12-01 12:09:58][plugin_manager.py:41] - Plugin linkai_v0.1.0 registered, path=./plugins/linkai
+[INFO][2025-12-01 12:09:58][plugin_manager.py:41] - Plugin Hello_v0.1 registered, path=./plugins/hello
+[INFO][2025-12-01 12:09:58][plugin_manager.py:41] - Plugin agent_v0.1.0 registered, path=./plugins/agent
+[ERROR][2025-12-01 12:09:58][plugin_manager.py:187] - Plugin tool not found, but found in plugins.json
+[INFO][2025-12-01 12:09:58][godcmd.py:194] - [Godcmd] 因未设置口令，本次的临时口令为7510。
+[INFO][2025-12-01 12:09:58][godcmd.py:210] - [Godcmd] inited
+[INFO][2025-12-01 12:09:58][keyword.py:40] - [keyword] {}
+[INFO][2025-12-01 12:09:58][keyword.py:42] - [keyword] inited.
+[WARNING][2025-12-01 12:09:58][agent.py:41] - Config file not found at ./plugins/agent/config.yaml
+[INFO][2025-12-01 12:09:58][agent.py:35] - [agent] inited
+[INFO][2025-12-01 12:09:58][role.py:69] - [Role] inited
+[INFO][2025-12-01 12:09:58][dungeon.py:56] - [Dungeon] inited
+[INFO][2025-12-01 12:09:58][hello.py:38] - [Hello] inited
+[INFO][2025-12-01 12:09:58][finish.py:23] - [Finish] inited
+[INFO][2025-12-01 12:18:41][config.py:299] - [INIT] override config by environ args: smart_gateway_timeout=100
+[INFO][2025-12-01 12:18:41][config.py:299] - [INIT] override config by environ args: model=claude-opus-4-5-20251101
+[INFO][2025-12-01 12:18:41][config.py:299] - [INIT] override config by environ args: customer_service_api_token=yuzhouwudichaojibaolongzhanshensrj
+[INFO][2025-12-01 12:18:41][config.py:299] - [INIT] override config by environ args: customer_service_api_base_url=https://api.srj666.com
+[INFO][2025-12-01 12:18:41][config.py:299] - [INIT] override config by environ args: customer_service_api_timeout=100
+[INFO][2025-12-01 12:18:41][config.py:314] - [INIT] load config: {'channel_type': 'wechatmp', 'model': 'claude-opus-4-5-20251101', 'bot_type': 'chatGPT', 'open_ai_api_key': 'sk-*****b98', 'open_ai_api_base': 'https://api.deepseek.com/v1', 'proxy': '', 'wechatmp_token': 'mywechatbottoken', 'wechatmp_port': 8080, 'wechatmp_app_id': 'wx90c39a9bef737b15', 'wechatmp_app_secret': '100*****a25', 'wechatmp_aes_key': 'oDJ*****ogL', 'hot_reload': False, 'single_chat_prefix': [''], 'single_chat_reply_prefix': '', 'subscribe_msg': '欢迎关注！直接发送消息即可获得回复。\n支持 RAG 设置指令：\n- rag 本地 / rag 外部\n- rag topk=5\n- rag 阈值=0.3\n- rag reset\n遇到问题可先发送 rag 查看帮助。', 'group_chat_prefix': ['@bot'], 'group_name_white_list': ['ChatGPT测试群', 'ChatGPT测试群2'], 'image_create_prefix': ['画'], 'speech_recognition': True, 'group_speech_recognition': False, 'voice_reply_voice': False, 'conversation_max_tokens': 2500, 'expires_in_seconds': 3600, 'character_desc': '你是基于大语言模型的AI智能助手，旨在回答并解决人们的任何问题，并且可以使用多种语言与人交流。', 'temperature': 0.7, 'smart_gateway_enabled': True, 'smart_gateway_base_url': 'http://127.0.0.1:8500', 'smart_gateway_timeout': 100, 'smart_gateway_tools_allowed': ['lookup_order', 'check_logistics', 'product_info'], 'smart_gateway_rag_top_k': 3, 'smart_gateway_rag_threshold': 0.3, 'customer_service_api_base_url': 'https://api.srj666.com', 'customer_service_api_token': 'yuzhouwudichaojibaolongzhanshensrj', 'customer_service_api_timeout': 100}
+[INFO][2025-12-01 12:18:41][config.py:240] - [Config] User datas file not found, ignore.
+[INFO][2025-12-01 12:18:41][plugin_manager.py:50] - Loading plugins config...
+[INFO][2025-12-01 12:18:41][plugin_manager.py:88] - Scaning plugins ...
+[INFO][2025-12-01 12:18:41][plugin_manager.py:41] - Plugin BDunit_v0.1 registered, path=./plugins/bdunit
+[INFO][2025-12-01 12:18:41][plugin_manager.py:41] - Plugin Godcmd_v1.0 registered, path=./plugins/godcmd
+[INFO][2025-12-01 12:18:41][plugin_manager.py:41] - Plugin Banwords_v1.0 registered, path=./plugins/banwords
+[INFO][2025-12-01 12:18:41][plugin_manager.py:41] - Plugin Keyword_v0.1 registered, path=./plugins/keyword
+[WARNING][2025-12-01 12:18:41][plugin_manager.py:113] - Failed to import plugin tool: No module named 'chatgpt_tool_hub'
+[INFO][2025-12-01 12:18:41][plugin_manager.py:41] - Plugin Dungeon_v1.0 registered, path=./plugins/dungeon
+[INFO][2025-12-01 12:18:41][plugin_manager.py:41] - Plugin Finish_v1.0 registered, path=./plugins/finish
+[INFO][2025-12-01 12:18:41][plugin_manager.py:41] - Plugin Role_v1.0 registered, path=./plugins/role
+[INFO][2025-12-01 12:18:41][plugin_manager.py:41] - Plugin linkai_v0.1.0 registered, path=./plugins/linkai
+[INFO][2025-12-01 12:18:41][plugin_manager.py:41] - Plugin Hello_v0.1 registered, path=./plugins/hello
+[INFO][2025-12-01 12:18:41][plugin_manager.py:41] - Plugin agent_v0.1.0 registered, path=./plugins/agent
+[ERROR][2025-12-01 12:18:41][plugin_manager.py:187] - Plugin tool not found, but found in plugins.json
+[INFO][2025-12-01 12:18:41][godcmd.py:194] - [Godcmd] 因未设置口令，本次的临时口令为2364。
+[INFO][2025-12-01 12:18:41][godcmd.py:210] - [Godcmd] inited
+[INFO][2025-12-01 12:18:41][keyword.py:40] - [keyword] {}
+[INFO][2025-12-01 12:18:41][keyword.py:42] - [keyword] inited.
+[WARNING][2025-12-01 12:18:41][agent.py:41] - Config file not found at ./plugins/agent/config.yaml
+[INFO][2025-12-01 12:18:41][agent.py:35] - [agent] inited
+[INFO][2025-12-01 12:18:41][role.py:69] - [Role] inited
+[INFO][2025-12-01 12:18:41][dungeon.py:56] - [Dungeon] inited
+[INFO][2025-12-01 12:18:41][hello.py:38] - [Hello] inited
+[INFO][2025-12-01 12:18:41][finish.py:23] - [Finish] inited
+[ERROR][2025-12-01 04:35:27][app.py:312] - [gateway] retrieval error: local variable 'ext_res' referenced before assignment
+Traceback (most recent call last):
+  File "/app/gateway/app.py", line 305, in chat
+    if kb_hit and retrieved and not ext_res:
+UnboundLocalError: local variable 'ext_res' referenced before assignment
+[WARNING][2025-12-01 06:24:34][app.py:272] - [gateway] customer_service_rag failed: AsyncClient.__init__() got an unexpected keyword argument 'proxies'
+[INFO][2025-12-01 06:39:02][app.py:165] - [gateway] calling customer_service_rag url=https://api.srj666.com/integrations/customer-service/ask top_k=3
+[INFO][2025-12-01 06:53:24][app.py:165] - [gateway] calling customer_service_rag url=https://api.srj666.com/integrations/customer-service/ask top_k=3
+[INFO][2025-12-01 06:58:29][app.py:165] - [gateway] calling customer_service_rag url=https://api.srj666.com/integrations/customer-service/ask top_k=3
+[INFO][2025-12-01 06:59:33][app.py:165] - [gateway] calling customer_service_rag url=https://api.srj666.com/integrations/customer-service/ask top_k=3
+[INFO][2025-12-01 07:00:33][app.py:165] - [gateway] calling customer_service_rag url=https://api.srj666.com/integrations/customer-service/ask top_k=3
+[INFO][2025-12-01 07:03:01][app.py:165] - [gateway] calling customer_service_rag url=https://api.srj666.com/integrations/customer-service/ask top_k=3
+[INFO][2025-12-01 07:13:24][app.py:165] - [gateway] calling customer_service_rag url=https://api.srj666.com/integrations/customer-service/ask top_k=3
+[INFO][2025-12-01 07:27:00][app.py:165] - [gateway] calling customer_service_rag url=https://api.srj666.com/integrations/customer-service/ask top_k=3
+[INFO][2025-12-01 08:05:46][app.py:165] - [gateway] calling customer_service_rag url=https://api.srj666.com/integrations/customer-service/ask top_k=3
+[INFO][2025-12-01 08:06:32][app.py:165] - [gateway] calling customer_service_rag url=https://api.srj666.com/integrations/customer-service/ask top_k=3
+[INFO][2025-12-01 08:10:06][app.py:165] - [gateway] calling customer_service_rag url=https://api.srj666.com/integrations/customer-service/ask top_k=3
+[INFO][2025-12-01 08:11:21][app.py:165] - [gateway] calling customer_service_rag url=https://api.srj666.com/integrations/customer-service/ask top_k=3
+[INFO][2025-12-01 08:13:25][app.py:165] - [gateway] calling customer_service_rag url=https://api.srj666.com/integrations/customer-service/ask top_k=3
+[INFO][2025-12-01 16:16:19][config.py:299] - [INIT] override config by environ args: smart_gateway_timeout=100
+[INFO][2025-12-01 16:16:19][config.py:299] - [INIT] override config by environ args: model=claude-opus-4-5-20251101
+[INFO][2025-12-01 16:16:19][config.py:299] - [INIT] override config by environ args: customer_service_api_token=yuzhouwudichaojibaolongzhanshensrj
+[INFO][2025-12-01 16:16:19][config.py:299] - [INIT] override config by environ args: customer_service_api_base_url=https://api.srj666.com
+[INFO][2025-12-01 16:16:19][config.py:299] - [INIT] override config by environ args: customer_service_api_timeout=100
+[INFO][2025-12-01 16:16:19][config.py:314] - [INIT] load config: {'channel_type': 'wechatmp', 'model': 'claude-opus-4-5-20251101', 'bot_type': 'chatGPT', 'open_ai_api_key': 'sk-*****b98', 'open_ai_api_base': 'https://api.deepseek.com/v1', 'proxy': '', 'wechatmp_token': 'mywechatbottoken', 'wechatmp_port': 8080, 'wechatmp_app_id': 'wx90c39a9bef737b15', 'wechatmp_app_secret': '100*****a25', 'wechatmp_aes_key': 'oDJ*****ogL', 'hot_reload': False, 'single_chat_prefix': [''], 'single_chat_reply_prefix': '', 'subscribe_msg': '欢迎关注！直接发送消息即可获得回复。\n支持 RAG 设置指令：\n- rag 本地 / rag 外部\n- rag topk=5\n- rag 阈值=0.3\n- rag reset\n遇到问题可先发送 rag 查看帮助。', 'group_chat_prefix': ['@bot'], 'group_name_white_list': ['ChatGPT测试群', 'ChatGPT测试群2'], 'image_create_prefix': ['画'], 'speech_recognition': True, 'group_speech_recognition': False, 'voice_reply_voice': False, 'conversation_max_tokens': 2500, 'expires_in_seconds': 3600, 'character_desc': '你是基于大语言模型的AI智能助手，旨在回答并解决人们的任何问题，并且可以使用多种语言与人交流。', 'temperature': 0.7, 'smart_gateway_enabled': False, 'smart_gateway_base_url': 'http://127.0.0.1:8500', 'smart_gateway_timeout': 100, 'smart_gateway_tools_allowed': ['lookup_order', 'check_logistics', 'product_info'], 'smart_gateway_rag_top_k': 3, 'smart_gateway_rag_threshold': 0.3, 'customer_service_api_base_url': 'https://api.srj666.com', 'customer_service_api_token': 'yuzhouwudichaojibaolongzhanshensrj', 'customer_service_api_timeout': 100}
+[INFO][2025-12-01 16:16:19][config.py:240] - [Config] User datas file not found, ignore.
+[INFO][2025-12-01 16:16:19][plugin_manager.py:50] - Loading plugins config...
+[INFO][2025-12-01 16:16:19][plugin_manager.py:88] - Scaning plugins ...
+[INFO][2025-12-01 16:16:19][plugin_manager.py:41] - Plugin BDunit_v0.1 registered, path=./plugins/bdunit
+[INFO][2025-12-01 16:16:19][plugin_manager.py:41] - Plugin Godcmd_v1.0 registered, path=./plugins/godcmd
+[INFO][2025-12-01 16:16:19][plugin_manager.py:41] - Plugin Banwords_v1.0 registered, path=./plugins/banwords
+[INFO][2025-12-01 16:16:19][plugin_manager.py:41] - Plugin Keyword_v0.1 registered, path=./plugins/keyword
+[WARNING][2025-12-01 16:16:19][plugin_manager.py:113] - Failed to import plugin tool: No module named 'chatgpt_tool_hub'
+[INFO][2025-12-01 16:16:19][plugin_manager.py:41] - Plugin Dungeon_v1.0 registered, path=./plugins/dungeon
+[INFO][2025-12-01 16:16:19][plugin_manager.py:41] - Plugin Finish_v1.0 registered, path=./plugins/finish
+[INFO][2025-12-01 16:16:19][plugin_manager.py:41] - Plugin Role_v1.0 registered, path=./plugins/role
+[INFO][2025-12-01 16:16:19][plugin_manager.py:41] - Plugin linkai_v0.1.0 registered, path=./plugins/linkai
+[INFO][2025-12-01 16:16:19][plugin_manager.py:41] - Plugin Hello_v0.1 registered, path=./plugins/hello
+[INFO][2025-12-01 16:16:19][plugin_manager.py:41] - Plugin agent_v0.1.0 registered, path=./plugins/agent
+[ERROR][2025-12-01 16:16:19][plugin_manager.py:187] - Plugin tool not found, but found in plugins.json
+[INFO][2025-12-01 16:16:19][godcmd.py:194] - [Godcmd] 因未设置口令，本次的临时口令为1274。
+[INFO][2025-12-01 16:16:19][godcmd.py:210] - [Godcmd] inited
+[INFO][2025-12-01 16:16:19][keyword.py:40] - [keyword] {}
+[INFO][2025-12-01 16:16:19][keyword.py:42] - [keyword] inited.
+[WARNING][2025-12-01 16:16:19][agent.py:41] - Config file not found at ./plugins/agent/config.yaml
+[INFO][2025-12-01 16:16:19][agent.py:35] - [agent] inited
+[INFO][2025-12-01 16:16:19][role.py:69] - [Role] inited
+[INFO][2025-12-01 16:16:19][dungeon.py:56] - [Dungeon] inited
+[INFO][2025-12-01 16:16:19][hello.py:38] - [Hello] inited
+[INFO][2025-12-01 16:16:19][finish.py:23] - [Finish] inited
+[INFO][2025-12-02 08:22:33][config.py:299] - [INIT] override config by environ args: smart_gateway_timeout=100
+[INFO][2025-12-02 08:22:33][config.py:299] - [INIT] override config by environ args: model=claude-opus-4-5-20251101
+[INFO][2025-12-02 08:22:33][config.py:299] - [INIT] override config by environ args: customer_service_api_token=yuzhouwudichaojibaolongzhanshensrj
+[INFO][2025-12-02 08:22:33][config.py:299] - [INIT] override config by environ args: customer_service_api_base_url=https://api.srj666.com
+[INFO][2025-12-02 08:22:33][config.py:299] - [INIT] override config by environ args: customer_service_api_timeout=100
+[INFO][2025-12-02 08:22:33][config.py:314] - [INIT] load config: {'channel_type': 'wechatmp', 'model': 'claude-opus-4-5-20251101', 'bot_type': 'chatGPT', 'open_ai_api_key': 'sk-*****b98', 'open_ai_api_base': 'https://api.deepseek.com/v1', 'proxy': '', 'wechatmp_token': 'mywechatbottoken', 'wechatmp_port': 8080, 'wechatmp_app_id': 'wx90c39a9bef737b15', 'wechatmp_app_secret': '100*****a25', 'wechatmp_aes_key': 'oDJ*****ogL', 'hot_reload': False, 'single_chat_prefix': [''], 'single_chat_reply_prefix': '', 'subscribe_msg': '欢迎关注！直接发送消息即可获得回复。\n支持 RAG 设置指令：\n- rag 本地 / rag 外部\n- rag topk=5\n- rag 阈值=0.3\n- rag reset\n遇到问题可先发送 rag 查看帮助。', 'group_chat_prefix': ['@bot'], 'group_name_white_list': ['ChatGPT测试群', 'ChatGPT测试群2'], 'image_create_prefix': ['画'], 'speech_recognition': True, 'group_speech_recognition': False, 'voice_reply_voice': False, 'conversation_max_tokens': 2500, 'expires_in_seconds': 3600, 'character_desc': '你是基于大语言模型的AI智能助手，旨在回答并解决人们的任何问题，并且可以使用多种语言与人交流。', 'temperature': 0.7, 'smart_gateway_enabled': False, 'smart_gateway_base_url': 'http://127.0.0.1:8500', 'smart_gateway_timeout': 100, 'smart_gateway_tools_allowed': ['lookup_order', 'check_logistics', 'product_info'], 'smart_gateway_rag_top_k': 3, 'smart_gateway_rag_threshold': 0.3, 'customer_service_api_base_url': 'https://api.srj666.com', 'customer_service_api_token': 'yuzhouwudichaojibaolongzhanshensrj', 'customer_service_api_timeout': 100}
+[INFO][2025-12-02 08:22:33][config.py:240] - [Config] User datas file not found, ignore.
+[INFO][2025-12-02 08:22:33][plugin_manager.py:50] - Loading plugins config...
+[INFO][2025-12-02 08:22:33][plugin_manager.py:88] - Scaning plugins ...
+[INFO][2025-12-02 08:22:33][plugin_manager.py:41] - Plugin BDunit_v0.1 registered, path=./plugins/bdunit
+[INFO][2025-12-02 08:22:33][plugin_manager.py:41] - Plugin Godcmd_v1.0 registered, path=./plugins/godcmd
+[INFO][2025-12-02 08:22:33][plugin_manager.py:41] - Plugin Banwords_v1.0 registered, path=./plugins/banwords
+[INFO][2025-12-02 08:22:33][plugin_manager.py:41] - Plugin Keyword_v0.1 registered, path=./plugins/keyword
+[WARNING][2025-12-02 08:22:33][plugin_manager.py:113] - Failed to import plugin tool: No module named 'chatgpt_tool_hub'
+[INFO][2025-12-02 08:22:33][plugin_manager.py:41] - Plugin Dungeon_v1.0 registered, path=./plugins/dungeon
+[INFO][2025-12-02 08:22:33][plugin_manager.py:41] - Plugin Finish_v1.0 registered, path=./plugins/finish
+[INFO][2025-12-02 08:22:33][plugin_manager.py:41] - Plugin Role_v1.0 registered, path=./plugins/role
+[INFO][2025-12-02 08:22:33][plugin_manager.py:41] - Plugin linkai_v0.1.0 registered, path=./plugins/linkai
+[INFO][2025-12-02 08:22:33][plugin_manager.py:41] - Plugin Hello_v0.1 registered, path=./plugins/hello
+[INFO][2025-12-02 08:22:33][plugin_manager.py:41] - Plugin agent_v0.1.0 registered, path=./plugins/agent
+[ERROR][2025-12-02 08:22:33][plugin_manager.py:187] - Plugin tool not found, but found in plugins.json
+[INFO][2025-12-02 08:22:33][godcmd.py:194] - [Godcmd] 因未设置口令，本次的临时口令为1593。
+[INFO][2025-12-02 08:22:33][godcmd.py:210] - [Godcmd] inited
+[INFO][2025-12-02 08:22:33][keyword.py:40] - [keyword] {}
+[INFO][2025-12-02 08:22:33][keyword.py:42] - [keyword] inited.
+[WARNING][2025-12-02 08:22:33][agent.py:41] - Config file not found at ./plugins/agent/config.yaml
+[INFO][2025-12-02 08:22:33][agent.py:35] - [agent] inited
+[INFO][2025-12-02 08:22:33][role.py:69] - [Role] inited
+[INFO][2025-12-02 08:22:33][dungeon.py:56] - [Dungeon] inited
+[INFO][2025-12-02 08:22:33][hello.py:38] - [Hello] inited
+[INFO][2025-12-02 08:22:33][finish.py:23] - [Finish] inited
+[INFO][2025-12-02 08:28:12][app.py:165] - [gateway] calling customer_service_rag url=https://api.srj666.com/integrations/customer-service/ask top_k=3
+[INFO][2025-12-02 08:46:36][config.py:299] - [INIT] override config by environ args: smart_gateway_timeout=60
+[INFO][2025-12-02 08:46:36][config.py:299] - [INIT] override config by environ args: model=claude-opus-4-5-20251101
+[INFO][2025-12-02 08:46:36][config.py:299] - [INIT] override config by environ args: customer_service_api_token=yuzhouwudichaojibaolongzhanshensrj
+[INFO][2025-12-02 08:46:36][config.py:299] - [INIT] override config by environ args: smart_gateway_enabled=true
+[INFO][2025-12-02 08:46:36][config.py:299] - [INIT] override config by environ args: customer_service_api_base_url=https://api.srj666.com
+[INFO][2025-12-02 08:46:36][config.py:299] - [INIT] override config by environ args: customer_service_api_timeout=60
+[INFO][2025-12-02 08:46:36][config.py:314] - [INIT] load config: {'channel_type': 'wechatmp', 'model': 'claude-opus-4-5-20251101', 'bot_type': 'chatGPT', 'open_ai_api_key': 'sk-*****b98', 'open_ai_api_base': 'https://api.deepseek.com/v1', 'proxy': '', 'wechatmp_token': 'mywechatbottoken', 'wechatmp_port': 8080, 'wechatmp_app_id': 'wx90c39a9bef737b15', 'wechatmp_app_secret': '100*****a25', 'wechatmp_aes_key': 'oDJ*****ogL', 'hot_reload': False, 'single_chat_prefix': [''], 'single_chat_reply_prefix': '', 'subscribe_msg': '欢迎关注！直接发送消息即可获得回复。\n支持 RAG 设置指令：\n- rag 本地 / rag 外部\n- rag topk=5\n- rag 阈值=0.3\n- rag reset\n遇到问题可先发送 rag 查看帮助。', 'group_chat_prefix': ['@bot'], 'group_name_white_list': ['ChatGPT测试群', 'ChatGPT测试群2'], 'image_create_prefix': ['画'], 'speech_recognition': True, 'group_speech_recognition': False, 'voice_reply_voice': False, 'conversation_max_tokens': 2500, 'expires_in_seconds': 3600, 'character_desc': '你是基于大语言模型的AI智能助手，旨在回答并解决人们的任何问题，并且可以使用多种语言与人交流。', 'temperature': 0.7, 'smart_gateway_enabled': True, 'smart_gateway_base_url': 'http://127.0.0.1:8500', 'smart_gateway_timeout': 60, 'smart_gateway_tools_allowed': ['lookup_order', 'check_logistics', 'product_info'], 'smart_gateway_rag_top_k': 3, 'smart_gateway_rag_threshold': 0.3, 'customer_service_api_base_url': 'https://api.srj666.com', 'customer_service_api_token': 'yuzhouwudichaojibaolongzhanshensrj', 'customer_service_api_timeout': 60}
+[INFO][2025-12-02 08:46:36][config.py:240] - [Config] User datas file not found, ignore.
+[INFO][2025-12-02 08:46:36][plugin_manager.py:50] - Loading plugins config...
+[INFO][2025-12-02 08:46:36][plugin_manager.py:88] - Scaning plugins ...
+[INFO][2025-12-02 08:46:36][plugin_manager.py:41] - Plugin BDunit_v0.1 registered, path=./plugins/bdunit
+[INFO][2025-12-02 08:46:36][plugin_manager.py:41] - Plugin Godcmd_v1.0 registered, path=./plugins/godcmd
+[INFO][2025-12-02 08:46:36][plugin_manager.py:41] - Plugin Banwords_v1.0 registered, path=./plugins/banwords
+[INFO][2025-12-02 08:46:36][plugin_manager.py:41] - Plugin Keyword_v0.1 registered, path=./plugins/keyword
+[WARNING][2025-12-02 08:46:36][plugin_manager.py:113] - Failed to import plugin tool: No module named 'chatgpt_tool_hub'
+[INFO][2025-12-02 08:46:36][plugin_manager.py:41] - Plugin Dungeon_v1.0 registered, path=./plugins/dungeon
+[INFO][2025-12-02 08:46:36][plugin_manager.py:41] - Plugin Finish_v1.0 registered, path=./plugins/finish
+[INFO][2025-12-02 08:46:36][plugin_manager.py:41] - Plugin Role_v1.0 registered, path=./plugins/role
+[INFO][2025-12-02 08:46:36][plugin_manager.py:41] - Plugin linkai_v0.1.0 registered, path=./plugins/linkai
+[INFO][2025-12-02 08:46:36][plugin_manager.py:41] - Plugin Hello_v0.1 registered, path=./plugins/hello
+[INFO][2025-12-02 08:46:36][plugin_manager.py:41] - Plugin agent_v0.1.0 registered, path=./plugins/agent
+[ERROR][2025-12-02 08:46:36][plugin_manager.py:187] - Plugin tool not found, but found in plugins.json
+[INFO][2025-12-02 08:46:36][godcmd.py:194] - [Godcmd] 因未设置口令，本次的临时口令为8160。
+[INFO][2025-12-02 08:46:36][godcmd.py:210] - [Godcmd] inited
+[INFO][2025-12-02 08:46:36][keyword.py:40] - [keyword] {}
+[INFO][2025-12-02 08:46:36][keyword.py:42] - [keyword] inited.
+[WARNING][2025-12-02 08:46:36][agent.py:41] - Config file not found at ./plugins/agent/config.yaml
+[INFO][2025-12-02 08:46:36][agent.py:35] - [agent] inited
+[INFO][2025-12-02 08:46:36][role.py:69] - [Role] inited
+[INFO][2025-12-02 08:46:36][dungeon.py:56] - [Dungeon] inited
+[INFO][2025-12-02 08:46:36][hello.py:38] - [Hello] inited
+[INFO][2025-12-02 08:46:36][finish.py:23] - [Finish] inited
+[INFO][2025-12-02 01:29:06][app.py:165] - [gateway] calling customer_service_rag url=https://api.srj666.com/integrations/customer-service/ask top_k=3
+[INFO][2025-12-02 01:30:40][app.py:165] - [gateway] calling customer_service_rag url=https://api.srj666.com/integrations/customer-service/ask top_k=3
+[INFO][2025-12-02 01:32:00][app.py:165] - [gateway] calling customer_service_rag url=https://api.srj666.com/integrations/customer-service/ask top_k=3
+[INFO][2025-12-02 01:47:02][app.py:165] - [gateway] calling customer_service_rag url=https://api.srj666.com/integrations/customer-service/ask top_k=3
+[INFO][2025-12-02 01:54:14][app.py:195] - [gateway] calling customer_service_rag url=https://api.srj666.com/integrations/customer-service/ask top_k=3

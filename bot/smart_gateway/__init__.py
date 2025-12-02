@@ -1,0 +1,1 @@
+# Smart Gateway client package
