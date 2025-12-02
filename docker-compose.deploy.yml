@@ -55,6 +55,8 @@ services:
       - gateway-data:/data
     networks:
       - cow-net
+    ports:
+      - "8501:8501"
     restart: unless-stopped
 
   caddy:
