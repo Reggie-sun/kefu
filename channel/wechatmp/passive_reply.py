@@ -142,23 +142,37 @@ class Query:
                     return "success"
 
                 if reply_type == "text":
-                    if len(reply_content.encode("utf8")) <= MAX_UTF8_LEN:
-                        reply_text = reply_content
-                    else:
-                        continue_text = "\n【未完待续，回复任意文字以继续】"
-                        splits = split_string_by_utf8_length(
-                            reply_content,
-                            MAX_UTF8_LEN - len(continue_text.encode("utf-8")),
-                            max_split=1,
-                        )
-                        reply_text = splits[0] + continue_text
-                        channel.cache_dict[from_user].append(("text", splits[1]))
-
-                    # 告知用户：上一次提问的 RAG 结果已经准备好，本次回复的是该结果
-                    # 无论是当前问题还是上一次的问题，都已经经过外部检索处理完成。
+                    # 首次回复时加上前缀提示
+                    prefix = ""
                     if request_cnt == 1:
                         prefix = "【上一次问题的外部检索已完成，这是计算好的答案】\n"
-                        reply_text = prefix + reply_text
+                    prefix_bytes = len(prefix.encode("utf-8")) if prefix else 0
+
+                    # 长文本按 UTF-8 字节拆分，多次“回复任意文字”逐段取出
+                    body_bytes = reply_content.encode("utf-8")
+                    if prefix_bytes + len(body_bytes) <= MAX_UTF8_LEN:
+                        # 单条即可容纳
+                        reply_text = prefix + reply_content
+                    else:
+                        continue_text = "\n【未完待续，回复任意文字以继续】"
+                        cont_bytes = len(continue_text.encode("utf-8"))
+                        # 为首段正文预留前缀和“未完待续”空间
+                        max_first_len = MAX_UTF8_LEN - prefix_bytes - cont_bytes
+                        if max_first_len <= 0:
+                            # 极端情况，保护性兜底：不加前缀，只保证能发出正文
+                            max_first_len = MAX_UTF8_LEN - cont_bytes
+                            prefix = ""
+                            prefix_bytes = 0
+                        splits = split_string_by_utf8_length(
+                            reply_content,
+                            max_first_len,
+                            max_split=1,
+                        )
+                        first_chunk = splits[0]
+                        reply_text = prefix + first_chunk + continue_text
+                        # 余下部分继续缓存，后续由用户再次发送任意内容触发
+                        if len(splits) > 1:
+                            channel.cache_dict[from_user].append(("text", splits[1]))
 
                     logger.info(
                         "[wechatmp] Request {} do send to {} {}: {}\n{}".format(

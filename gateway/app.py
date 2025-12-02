@@ -110,7 +110,11 @@ _enhanced_tools_router: Optional[EnhancedToolsRouter] = EnhancedToolsRouter() if
 # Optional external customer-service RAG client
 _customer_rag_base = os.environ.get("CUSTOMER_SERVICE_API_BASE_URL", "").rstrip("/")
 _customer_rag_token = os.environ.get("CUSTOMER_SERVICE_API_TOKEN", "")
-_customer_rag_timeout = float(os.environ.get("CUSTOMER_SERVICE_API_TIMEOUT", "8.0"))
+_timeout_raw = os.environ.get("CUSTOMER_SERVICE_API_TIMEOUT", "8.0")
+try:
+    _customer_rag_timeout = float(_timeout_raw or "8.0")
+except ValueError:
+    _customer_rag_timeout = 8.0
 _customer_rag_proxy = os.environ.get("CUSTOMER_SERVICE_API_PROXY", None)
 _customer_rag_client: Optional[httpx.AsyncClient] = None
 EXTERNAL_RAG_ONLY = os.environ.get("EXTERNAL_RAG_ONLY", "").lower() in {"1", "true", "yes"}
@@ -132,32 +136,35 @@ except Exception:
 
 def _extract_rag_summary(answer: str) -> str:
     """
-    从 RAG 返回的富文本 answer 中，只提取“摘要速览”部分，用于对外回复。
-    若找不到“摘要速览”标记，则返回原文。
+    从 RAG 返回的富文本 answer 中，只提取“关键结论（证据驱动）”部分，用于对外回复。
+    若找不到对应标记，则返回原文。
     """
     if not isinstance(answer, str) or not answer:
         return answer
 
-    marker = "摘要速览"
-    idx = answer.find(marker)
+    markers = ["关键结论（证据驱动）", "关键结论 (证据驱动)", "关键结论"]
+    idx = -1
+    marker_used = ""
+    for m in markers:
+        pos = answer.find(m)
+        if pos != -1:
+            idx = pos
+            marker_used = m
+            break
     if idx == -1:
         return answer
 
     segment = answer[idx:]
-    # 跳过“摘要速览”这一行标题
-    nl = segment.find("\n")
-    body = segment[nl + 1 :] if nl != -1 else segment[len(marker) :]
+    body = segment
 
     # 截断到下一个章节标题（#### 或 ###）
     cut_pos = len(body)
     for h in ("\n#### ", "\n### "):
-        pos = body.find(h)
+        pos = body.find(h, len(marker_used))
         if pos != -1 and pos < cut_pos:
             cut_pos = pos
     body = body[:cut_pos].strip()
-    if not body:
-        return answer
-    return f"摘要速览\n{body}"
+    return body or answer
 
 
 async def _call_customer_service_rag(
@@ -422,9 +429,10 @@ async def chat(payload: GatewayRequestModel):
 
     # LLM 生成阶段：使用检索片段作为上下文，尽量给出正式答案
     llm_ms: Optional[int] = None
-    # 如果已经使用了外部 RAG（customer_service），优先信任其 answer，
-    # 不再用本地 LLM 覆盖，避免丢失 RAG 端完整回答。
-    use_local_llm = _llm_api_key and latency.get("retrieval_source") != "customer_service"
+    # 使用本地 LLM 的条件：
+    # - 有可用的 API Key，且最终未命中知识库（包括低置信度被清零后的情况），或
+    # - 检索源不是外部 customer_service（本地 dummy/向量库场景仍可用 LLM 做生成）
+    use_local_llm = _llm_api_key and (not kb_hit or latency.get("retrieval_source") != "customer_service")
     if use_local_llm:
         try:
             llm_start = time.perf_counter()
